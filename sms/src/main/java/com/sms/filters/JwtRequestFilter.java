@@ -41,43 +41,46 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         return stringBuilder.toString();
     }
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader("Authorization");
-        System.out.println("Authorization Header: " + authorizationHeader);  // Debugging the authorization header
-        String username = null;
-        String token = null;
-
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            token = authorizationHeader.substring(7);
-            System.out.println("Extracted Token from Header: " + token);  // Debugging the extracted token
-            try {
-                username = jwtUtil.extractAllClaims(token).getSubject();
-                System.out.println("Username extracted from JWT: " + username);  // Debugging the extracted username
-            } catch (Exception e) {
-                logger.error("JWT processing failed: " + e.getMessage());
-                System.out.println("Error extracting claims: " + e.getMessage());  // Debugging error in JWT processing
-            }
-        }
-
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            System.out.println("Username is not null and authentication context is empty.");  // Debugging flow
-            Optional<User> user = userService.findByName(username);
-            System.out.println("UserDetails loaded for username: " + username);  // Debugging user details loading
-
-            if(jwtUtil.validateToken(token, username)) {
-                System.out.println("Token is valid. Authenticating user.");  // Debugging token validation
-//                UsernamePasswordAuthenticationToken authenticationToken =
-//                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            } else {
-                System.out.println("Token is invalid.");  // Debugging invalid token case
-            }
-        }
-
-        filterChain.doFilter(request, response);
+        System.out.println("in do filter Internal");
     }
-
+//
+//        String authorizationHeader = request.getHeader("Authorization");
+//        System.out.println("Authorization Header: " + authorizationHeader);  // Debugging the authorization header
+//        String username = null;
+//        String token = null;
+//
+//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+//            token = authorizationHeader.substring(7);
+//            System.out.println("Extracted Token from Header: " + token);  // Debugging the extracted token
+//            try {
+//                username = jwtUtil.extractAllClaims(token).getSubject();
+//                System.out.println("Username extracted from JWT: " + username);  // Debugging the extracted username
+//            } catch (Exception e) {
+//                logger.error("JWT processing failed: " + e.getMessage());
+//                System.out.println("Error extracting claims: " + e.getMessage());  // Debugging error in JWT processing
+//            }
+//        }
+//
+//        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//            System.out.println("Username is not null and authentication context is empty.");  // Debugging flow
+//            Optional<User> user = userService.findByName(username);
+//            System.out.println("UserDetails loaded for username: " + username);  // Debugging user details loading
+//
+//            if(jwtUtil.validateToken(token, username)) {
+//                System.out.println("Token is valid. Authenticating user.");  // Debugging token validation
+////                UsernamePasswordAuthenticationToken authenticationToken =
+////                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+////                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+////                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//            } else {
+//                System.out.println("Token is invalid.");  // Debugging invalid token case
+//            }
+//        }
+//
+ //       filterChain.doFilter(request, response);
+//    }
 }
 

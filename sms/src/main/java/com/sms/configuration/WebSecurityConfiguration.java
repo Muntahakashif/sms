@@ -42,7 +42,7 @@ public class WebSecurityConfiguration {
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/authenticate").permitAll()  // Allow unauthenticated access to /authenticate
-                        .requestMatchers("/api/admin/**").hasRole("admin")   // Only allow access to /api/admin/** if user has "ADMIN" role
+                       // .requestMatchers("/api/admin/**").hasRole("admin")   // Only allow access to /api/admin/** if user has "ADMIN" role
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session management

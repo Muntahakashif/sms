@@ -34,40 +34,44 @@ public class AuthenticationController {
     @Autowired
     private HttpServletResponse httpServletResponse;
     @PostMapping("/authenticate")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
-        System.out.println("Received authentication request for email: " + authenticationRequest.getEmail());  // Debugging email in the authentication request
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            authenticationRequest.getEmail(),
-                            authenticationRequest.getPassword()
-                    )
-            );
-            System.out.println("Authentication successful for email: " + authenticationRequest.getEmail());  // Debugging successful authentication
-        } catch (BadCredentialsException e) {
-            System.out.println("Invalid username or password");  // Debugging invalid credentials
-            throw new BadCredentialsException("Invalid username or password");
-        } catch (DisabledException disabledException) {
-            try {
-                System.out.println("User not created. Returning error response.");  // Debugging user not found
-                httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND, "User not created");
-                return null;
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-        Optional<User> user = userService.findByUserEmail(authenticationRequest.getEmail());
-        if(user.isEmpty()) {
-            return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
-        }
-        System.out.println("UserDetails loaded for email: " + authenticationRequest.getEmail());  // Debugging loaded user details
+    //public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) {
+        public ResponseEntity<?> createAuthenticationToken() {
 
-        final String jwt = jwtutil.generateToken(user.get().getName());
-        System.out.println("Generated JWT: " + jwt);
+        System.out.println("Received authentication request for email: ");
+         // Debugging email in the authentication request
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            authenticationRequest.getEmail(),
+//                            authenticationRequest.getPassword()
+//                    )
+//            );
+//            System.out.println("Authentication successful for email: " + authenticationRequest.getEmail());  // Debugging successful authentication
+//        } catch (BadCredentialsException e) {
+//            System.out.println("Invalid username or password");  // Debugging invalid credentials
+//            throw new BadCredentialsException("Invalid username or password");
+//        } catch (DisabledException disabledException) {
+//            try {
+//                System.out.println("User not created. Returning error response.");  // Debugging user not found
+//                httpServletResponse.sendError(HttpServletResponse.SC_NOT_FOUND, "User not created");
+//                return null;
+//            } catch (IOException ioException) {
+//                ioException.printStackTrace();
+//            }
+//        }
+//        Optional<User> user = userService.findByUserEmail(authenticationRequest.getEmail());
+//        if(user.isEmpty()) {
+//            return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+//        }
+//        System.out.println("UserDetails loaded for email: " + authenticationRequest.getEmail());  // Debugging loaded user details
+//
+//        final String jwt = jwtutil.generateToken(user.get().getName());
+//        System.out.println("Generated JWT: " + jwt);
+//
+//        response.setHeader("Authorization", jwt);
+//
+     return new ResponseEntity<>(HttpStatus.OK);
 
-        response.setHeader("Authorization", jwt);
-
-        return new ResponseEntity<>(user.get(), HttpStatus.OK);
-    }
+   }
 
 }
