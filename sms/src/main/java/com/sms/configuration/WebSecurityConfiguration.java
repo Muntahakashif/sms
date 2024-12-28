@@ -2,7 +2,7 @@ package com.sms.configuration;
 
 import com.sms.filters.JwtRequestFilter;
 import com.sms.repositories.UserRepository;
-import com.sms.sevices.User.UserService;
+import com.sms.services.User.UserService;
 import com.sms.utils.Jwtutil;
 import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
